@@ -1,0 +1,57 @@
+# Monsun IBC tank controller, first prototype (draft schema, not yet parsed by firmware)
+device:
+  name: Monsun IBC Controller
+  board: xiao_esp32c3
+
+inputs:
+  - id: reservoir_ok
+    name: Reservoir not empty
+    type: binary_sensor
+    source: gpio
+    pin: LEVEL_1
+    active: low
+  - id: ibc_full
+    name: IBC full
+    type: binary_sensor
+    source: gpio
+    pin: LEVEL_2
+    active: low
+  - id: ibc_level
+    name: IBC level
+    type: sensor
+    unit: "%"
+    source: ads1115
+    channel: 0
+    sensor_model: pressure_5psi_0.5_4.5v   # ratiometric, 5 V supply
+    divider: { r_top_ohm: 10000, r_bottom_ohm: 15000 }
+  - id: air_temperature
+    type: sensor
+    source: dht22
+    pin: DHT22
+  - id: water_temperature
+    type: sensor
+    source: ds18b20
+    pin: ONEWIRE
+
+outputs:
+  - id: reservoir_pump
+    name: Reservoir pump
+    pin: RELAY_1
+    active: low
+    load: 230V
+    max_run_s: 3600
+    min_off_s: 60
+    interlocks:
+      - { input: reservoir_ok, above: 0.5, latch_fault: true }
+      - { input: ibc_full, below: 0.5 }
+    level_control: { input: ibc_level, start_below: 40, stop_above: 90 }
+  - id: ibc_pump
+    name: IBC pump
+    pin: RELAY_2
+    active: low
+    load: 230V
+    max_run_s: 1800
+    min_off_s: 60
+    interlocks:
+      - { input: ibc_level, above: 10, latch_fault: true }
+    slots: 2

@@ -1,0 +1,17 @@
+# Third-party Modbus RTU device profile (example, unverified register map: check the vendor datasheet)
+name: Generic RS485 soil moisture/temperature sensor
+default_baud: 4800
+default_address: 1
+registers:
+  - id: soil_moisture
+    kind: input
+    address: 0x0000
+    scale: -1
+    unit: "%"
+    device_class: moisture
+  - id: soil_temperature
+    kind: input
+    address: 0x0001
+    scale: -1
+    unit: "°C"
+    device_class: temperature

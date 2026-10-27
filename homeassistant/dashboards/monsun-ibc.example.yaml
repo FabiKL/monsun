@@ -1,0 +1,23 @@
+# Example Lovelace view for the Monsun IBC controller (entity ids depend on your discovery names)
+title: Monsun
+path: monsun
+cards:
+  - type: entities
+    title: Pumps
+    entities:
+      - select.monsun_reservoir_pump_mode
+      - binary_sensor.monsun_reservoir_pump_running
+      - select.monsun_ibc_pump_mode
+      - binary_sensor.monsun_ibc_pump_running
+  - type: gauge
+    name: IBC level
+    entity: sensor.monsun_ibc_level
+    min: 0
+    max: 100
+  - type: entities
+    title: Sensors
+    entities:
+      - binary_sensor.monsun_reservoir_not_empty
+      - binary_sensor.monsun_ibc_full
+      - sensor.monsun_air_temperature
+      - sensor.monsun_water_temperature

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Monsun device config (draft)",
+  "type": "object",
+  "required": ["device", "inputs", "outputs"],
+  "properties": {
+    "device": {
+      "type": "object",
+      "required": ["name", "board"],
+      "properties": {
+        "name": {"type": "string"},
+        "board": {"type": "string"}
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "source"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "name": {"type": "string"},
+          "type": {"enum": ["sensor", "binary_sensor"]},
+          "source": {"enum": ["gpio", "ads1115", "dht22", "ds18b20", "monsunlink", "mqtt"]}
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pin"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "load": {"enum": ["24V", "230V"]},
+          "max_run_s": {"type": "integer", "minimum": 0},
+          "min_off_s": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}

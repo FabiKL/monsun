@@ -1,0 +1,31 @@
+# Build outputs
+build/
+cmake-build-*/
+out/
+*.o
+*.elf
+*.bin
+*.map
+
+# ESP-IDF
+managed_components/
+dependencies.lock
+sdkconfig
+sdkconfig.old
+
+# STM32Cube packages (fetched, not committed)
+firmware/node-stm32/third_party/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets
+secrets.yaml
+*.local.yaml
+.env
